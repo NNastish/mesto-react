@@ -17,12 +17,6 @@ class Api {
                 authorization: this._headers.authorization
             }
         })
-            // .then(res => {
-            //     if (res.ok) {
-            //         return res.json();
-            //     }
-            //     return Promise.reject('Произошла ошибка в getInitialCards');
-            // });
             .then(this._getResponseData);
     }
 

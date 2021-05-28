@@ -11,7 +11,7 @@ function App() {
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
     const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
-    // const [isClosed, setIsClosed] = useState(false);
+    const [selectedCard, setSelectedCard] = useState(null);
 
     function handleEditProfileClick() {
         setIsEditProfilePopupOpen(!isEditProfilePopupOpen);
@@ -25,11 +25,36 @@ function App() {
         setIsAddPlacePopupOpen(!isAddPlacePopupOpen);
     }
 
+    function handleCardClick() {
+        setSelectedCard(!selectedCard);
+    }
+
     function closeAllPopups() {
         setIsAddPlacePopupOpen(false);
         setIsEditAvatarPopupOpen(false);
         setIsEditProfilePopupOpen(false);
+        setSelectedCard(null);
     }
+
+    const handleEscClose = (e) => {
+        if (e.key === 'Escape') {
+            closeAllPopups();
+        }
+    }
+
+    const closeViaClick = (e) => {
+        if (e.target.classList.contains("popup_opened")) {
+            closeAllPopups();
+        }
+    }
+
+    useEffect(() => {
+
+        window.addEventListener("keydown", handleEscClose);
+        return () => {
+            window.removeEventListener("keydown", handleEscClose);
+        }
+    })
 
     //TODO: useEffect для инита попапа и вешание всех слушалок, return оттуда снятие слушалок и тд.
 
@@ -44,6 +69,7 @@ function App() {
                 onEditProfile={handleEditProfileClick}
                 onAddPlace={handleAddPlaceClick}
                 onEditAvatar={handleEditAvatarClick}
+                onCardClick={setSelectedCard}
             />
             {/*футер */}
             {/*popup добавления новой карточки профиля*/}
@@ -54,6 +80,7 @@ function App() {
                 formTitle={"Новое место"}
                 isOpen={isAddPlacePopupOpen}
                 onClose={closeAllPopups}
+                onClickClose={closeViaClick}
             >
                 <component>
                     <input className="form__input form__input_title" id="input-title" type="text" name="name" value=""
@@ -74,6 +101,7 @@ function App() {
                 formTitle={"Редактировать профиль"}
                 isOpen={isEditProfilePopupOpen}
                 onClose={closeAllPopups}
+                onClickClose={closeViaClick}
             >
                 <component>
                     <input className="form__input form__input_name" id="name" type="text" name="name" value=""
@@ -94,6 +122,7 @@ function App() {
                 formTitle={"Обновить аватар"}
                 isOpen={isEditAvatarPopupOpen}
                 onClose={closeAllPopups}
+                onClickClose={closeViaClick}
             >
                 <component>
                     <input className="form__input form__input_link" id="link" type="url" name="avatar" value=""
@@ -104,7 +133,11 @@ function App() {
 
             {/*popup для увеличения фото*/}
 
-            <ImagePopup/>
+            <ImagePopup
+                card={selectedCard}
+                onClose={closeAllPopups}
+                onClickClose={closeViaClick}
+            />
 
             {/*popup для подтверждения удаления карточки*/}
             {/*TODO: check after card realisation*/}

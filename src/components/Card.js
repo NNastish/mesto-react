@@ -1,8 +1,13 @@
-function Card({ card, i }) {
+function Card({ card, onClick }) {
+
+    const handleCardClick = () => {
+        onClick(card);
+    }
+
     return (
-        <article className="card" key={i}>
+        <article className="card">
             <button type="button" className="card__delete"></button>
-            <img className="card__photo" alt={card.name} src={card.link}/>
+            <img className="card__photo" alt={card.name} src={card.link} onClick={handleCardClick}/>
             <div className="card__lists">
                 <h2 className="card__title">{card.name}</h2>
                 <div className="card__like-box">

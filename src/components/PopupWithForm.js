@@ -1,6 +1,9 @@
 function PopupWithForm(props) {
     return (
-        <article className={props.isOpen ? `popup popup_type_${props.name} popup_opened` : `popup popup_type_${props.name}`}>
+        <article
+            className={props.isOpen ? `popup popup_type_${props.name} popup_opened` : `popup popup_type_${props.name}`}
+            onMouseUp={props.onClickClose}
+        >
             <div className="popup__window">
                 <button className="popup__close" type="button" onClick={props.onClose}></button>
                 <form className="form" id="save-button" name="popup-form" noValidate>

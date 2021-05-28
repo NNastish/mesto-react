@@ -1,8 +1,9 @@
 import {api} from './utils/Api';
 import {useState, useEffect} from "react";
-import Card from './Card'
+import Card from './Card';
+import Profile from './Profile';
 
-function Main({onAddPlace, onEditAvatar, onEditProfile}) {
+function Main({ onAddPlace, onEditAvatar, onEditProfile, onCardClick }) {
     const [userName, setUserName] = useState('');
     const [userDescription, setUserDescription] = useState('');
     const [userAvatar, setUserAvatar] = useState('');
@@ -13,8 +14,6 @@ function Main({onAddPlace, onEditAvatar, onEditProfile}) {
     const apiGetUserInfo = () => {
         api.getUserInfo()
             .then(data => {
-                console.log('data');
-                console.log(data);
                 const {name, avatar, about} = data;
                 setUserName(name);
                 setNameFlag(true);
@@ -23,7 +22,6 @@ function Main({onAddPlace, onEditAvatar, onEditProfile}) {
                 setDescriptionFlag(true);
             })
             .catch((error) => {
-                console.log(error.status)
                 setDescriptionFlag(false);
                 setNameFlag(false);
             })
@@ -44,6 +42,7 @@ function Main({onAddPlace, onEditAvatar, onEditProfile}) {
             })
     }
 
+    //TODO: in future want to add promiseAll and maybe modify stateVariables (start to use objects)
     useEffect(() => {
         apiGetUserInfo();
         apiGetCards();
@@ -53,36 +52,23 @@ function Main({onAddPlace, onEditAvatar, onEditProfile}) {
     return (
         <>
             {/*секция с профилем*/}
-            <section className="profile">
-                <div className="profile__box">
-                    <div className="profile__avatar">
-                        <img className="profile__photo" src={userAvatar} alt="Avatar"/>
-                        <button
-                            type="button"
-                            className="profile__avatar-overlay"
-                            // style={{ backgroundImage: `url(${userAvatar})` }}
-                            onClick={onEditAvatar}>
-                        </button>
-                    </div>
+            <Profile
+                userAvatar={userAvatar}
+                onEditAvatar={onEditAvatar}
+                nameFlag={nameFlag}
+                userName={userName}
+                onEditProfile={onEditProfile}
+                descriptionFlag={descriptionFlag}
+                userDescription={userDescription}
+                onAddPlace={onAddPlace}
+            />
 
-
-                    <div className="profile__info">
-                        <div className="profile__header">
-                            <h1 className="profile__title">{nameFlag ? userName: "Жак-Ив Кусто"}</h1>
-                            <button type="button" className="profile__edit" id="edit" onClick={onEditProfile}></button>
-                        </div>
-                        <p className="profile__text">{descriptionFlag ? userDescription: "Исследователь океана"}</p>
-                    </div>
-                </div>
-
-                <button type="button" className="profile__add" id="add" onClick={onAddPlace}></button>
-            </section>
 
             {/*секция с основным массивом карточек */}
             <section className="cards">
                 {
-                    cards.map((cardEntity, i) => (
-                        <Card card={cardEntity} i={i}/>
+                    cards.map((card) => (
+                        <Card key={card.id} card={card} onClick={onCardClick}/>
                     ))
                 }
             </section>
