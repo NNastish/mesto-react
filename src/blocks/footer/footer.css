@@ -1,0 +1,14 @@
+.footer {
+    margin: 0;
+    padding-top: 67px;
+    /*TODO: define color, temp decision white*/
+    color: white;
+}
+@media all and (max-width: 425px) {
+    .footer {
+        max-width: 282px;
+        padding-left: 19px;
+        padding-right: 19px;
+        padding-top: 48px;
+    }
+}
