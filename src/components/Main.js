@@ -1,65 +1,54 @@
-import PopupWithForm from './PopupWithForm';
-import ImagePopup from "./ImagePopup";
+import {api} from './utils/Api';
+import {useState, useEffect} from "react";
+import Card from './Card'
 
 function Main({onAddPlace, onEditAvatar, onEditProfile}) {
-    /*let popup = null;
+    const [userName, setUserName] = useState('');
+    const [userDescription, setUserDescription] = useState('');
+    const [userAvatar, setUserAvatar] = useState('');
+    const [nameFlag, setNameFlag] = useState(false);
+    const [descriptionFlag, setDescriptionFlag] = useState(false);
+    const [cards, setCards] = useState([]);
 
-    function close() {
-        if (popup != null) {
-            popup.classList.remove("popup_opened");
-            document.removeEventListener("keydown", handleEscClose);
-        }
-    }*/
-
-    /*function handleEscClose(evt) {
-        if (evt.key === "Escape") {
-            close();
-        }
+    const apiGetUserInfo = () => {
+        api.getUserInfo()
+            .then(data => {
+                console.log('data');
+                console.log(data);
+                const {name, avatar, about} = data;
+                setUserName(name);
+                setNameFlag(true);
+                setUserAvatar(avatar);
+                setUserDescription(about);
+                setDescriptionFlag(true);
+            })
+            .catch((error) => {
+                console.log(error.status)
+                setDescriptionFlag(false);
+                setNameFlag(false);
+            })
+            .finally(() => {
+            })
     }
 
-    function handleEditAvatarClick() {
-        popup = document.querySelector(".popup_type_avatar");
-        popup.classList.add("popup_opened");
-        //закрыл
-        // document.addEventListener("keydown", handleEscClose);
-        // popup.querySelector(".popup__close").addEventListener("click", () => close())
-        // popup.addEventListener("click", (evt) => {
-        //     if (evt.target.classList.contains("popup_opened")) {
-        //         close();
-        //     }
-        // });
-        console.log('handleEditAvatar');
+    const apiGetCards = () => {
+        api.getInitialCards()
+            .then((data) => {
+                setCards(data);
+            })
+            .catch((error) => {
+                console.log('Error: ' + error.status);
+            })
+            .finally(() => {
+
+            })
     }
 
-    function handleAddPlaceClick() {
-        //открыл
-        popup = document.querySelector(".popup_type_add");
-        popup.classList.add("popup_opened");
-        //закрыл
-        // document.addEventListener("keydown", handleEscClose);
-        // popup.querySelector(".popup__close").addEventListener("click", () => close())
-        // popup.addEventListener("click", (evt) => {
-        //     if (evt.target.classList.contains("popup_opened")) {
-        //         close();
-        //     }
-        // });
-        console.log('handleAddPlaceClick');
-    }*/
+    useEffect(() => {
+        apiGetUserInfo();
+        apiGetCards();
+    }, [])
 
-    /*function handleEditProfileClick() {
-        //открыл
-        popup = document.querySelector(".popup_type_edit");
-        popup.classList.add("popup_opened");
-        //закрыл
-        // document.addEventListener("keydown", handleEscClose);
-        // popup.querySelector(".popup__close").addEventListener("click", () => close())
-        // popup.addEventListener("click", (evt) => {
-        //     if (evt.target.classList.contains("popup_opened")) {
-        //         close();
-        //     }
-        // });
-        console.log('handleEditProfileClick');
-    }*/
 
     return (
         <>
@@ -67,16 +56,22 @@ function Main({onAddPlace, onEditAvatar, onEditProfile}) {
             <section className="profile">
                 <div className="profile__box">
                     <div className="profile__avatar">
-                        <button type="button" className="profile__avatar-overlay" onClick={onEditAvatar}></button>
+                        <img className="profile__photo" src={userAvatar} alt="Avatar"/>
+                        <button
+                            type="button"
+                            className="profile__avatar-overlay"
+                            // style={{ backgroundImage: `url(${userAvatar})` }}
+                            onClick={onEditAvatar}>
+                        </button>
                     </div>
-                    <img className="profile__photo" src="<%=require('./images/image.jpg')%>" alt="Аватар"/>
+
 
                     <div className="profile__info">
                         <div className="profile__header">
-                            <h1 className="profile__title">Жак-Ив Кусто</h1>
+                            <h1 className="profile__title">{nameFlag ? userName: "Жак-Ив Кусто"}</h1>
                             <button type="button" className="profile__edit" id="edit" onClick={onEditProfile}></button>
                         </div>
-                        <p className="profile__text">Исследователь океана</p>
+                        <p className="profile__text">{descriptionFlag ? userDescription: "Исследователь океана"}</p>
                     </div>
                 </div>
 
@@ -84,7 +79,13 @@ function Main({onAddPlace, onEditAvatar, onEditProfile}) {
             </section>
 
             {/*секция с основным массивом карточек */}
-            <section className="cards"></section>
+            <section className="cards">
+                {
+                    cards.map((cardEntity, i) => (
+                        <Card card={cardEntity} i={i}/>
+                    ))
+                }
+            </section>
         </>
     )
 }
