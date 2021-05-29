@@ -3,8 +3,9 @@ function Profile({userAvatar, onEditAvatar, nameFlag, userName,
     return (
         <section className="profile">
             <div className="profile__box">
-                <div className="profile__avatar">
-                    <img className="profile__photo" src={userAvatar} alt="Avatar"/>
+                <div
+                    className="profile__avatar"
+                    style={{ backgroundImage: `url(${userAvatar}`}}>
                     <button
                         type="button"
                         className="profile__avatar-overlay"

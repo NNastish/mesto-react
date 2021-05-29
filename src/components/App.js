@@ -56,8 +56,6 @@ function App() {
         }
     })
 
-    //TODO: useEffect для инита попапа и вешание всех слушалок, return оттуда снятие слушалок и тд.
-
 
     return (
         <body className="container">
