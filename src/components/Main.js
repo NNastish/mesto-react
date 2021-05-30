@@ -1,4 +1,4 @@
-import {api} from './utils/Api';
+import {api} from '../utils/Api';
 import {useState, useEffect} from "react";
 import Card from './Card';
 import Profile from './Profile';
