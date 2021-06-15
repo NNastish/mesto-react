@@ -7,27 +7,27 @@ function EditProfilePopup({ isOpen, onClickClose, onClose, onUpdateUser, submitB
     const currentUser = useContext(CurrentUserContext);
 
     useEffect(() => {
-        setName({value: currentUser.name});
-        setDescription({value: currentUser.about});
+        setName(currentUser.name);
+        setDescription(currentUser.about);
     }, [currentUser]);
 
-    const [name, setName] = useState({value: ''});
-    const [description, setDescription] = useState({value: ''});
+    const [name, setName] = useState('');
+    const [description, setDescription] = useState('');
 
-    const handleNameChange = (event) => {
-        setName({value: event.target.value});
+    function handleNameChange(event) {
+        setName(event.target.value);
     }
 
-    const handleDescriptionChange = (event) => {
-        setDescription({value: event.target.value});
+    function handleDescriptionChange(event) {
+        setDescription(event.target.value);
     }
 
-    const handleSubmit = (event) => {
+    function handleSubmit(event) {
         event.preventDefault();
 
         onUpdateUser({
-            name: name.value,
-            about: description.value,
+            name: name,
+            about: description,
         });
     }
 
@@ -43,12 +43,12 @@ function EditProfilePopup({ isOpen, onClickClose, onClose, onUpdateUser, submitB
         >
 
             <input className="form__input form__input_name" id="name" type="text"
-                name="name" value={name.value} onChange={handleNameChange}
+                name="name" value={name} onChange={handleNameChange}
                 placeholder="Имя" minLength="2" maxLength="40" required/>
             <span className="form__input-error" id="name-error"></span>
 
             <input className="form__input form__input_about" id="about" type="text"
-                   name="about" value={description.value} onChange={handleDescriptionChange}
+                   name="about" value={description} onChange={handleDescriptionChange}
                    placeholder="О себе" minLength="2" maxLength="200" required/>
             <span className="form__input-error" id="about-error"></span>
 

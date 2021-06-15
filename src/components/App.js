@@ -70,9 +70,9 @@ function App() {
     function handleCardDelete(card) {
         api.deleteCard(card._id)
             .then(data => {
-                //FIXME
                 const refreshedCards = cards.filter(everyCard => everyCard._id !== card._id);
                 setCards(refreshedCards);
+                console.log(data);
             })
             .catch(showError);
     }
