@@ -21,39 +21,20 @@ function App() {
     const [popupSubmitSaveButton, setPopupSubmitSaveButton] = useState('Сохранить');
     const [popupSubmitCreateButton, setPopupSubmitCreateButton] = useState('Создать');
 
-    const apiGetCards = () => {
-        api.getInitialCards()
-            .then((data) => {
-                setCards(data);
-            })
-            .catch((error) => {
-                console.log('Error: ' + error.status);
-            })
-            .finally(() => {
-
-            })
-    }
-
-    const apiGetUserInfo = () => {
-        api.getUserInfo()
-            .then(data => {
-                setCurrentUser(data);
+    //Mounting
+    useEffect(() => {
+        Promise.all([api.getUserInfo(), api.getInitialCards()])
+            .then(answer => {
+                setCurrentUser(answer[0]);
+                setCards(answer[1]);
             })
             .catch(error => {
-                console.log('Error: ' + error);
+                showError(error);
                 setCurrentUser({});
             })
-            .finally()
-    }
-
-//TODO: объединить монтирование
-    useEffect(() => {
-        apiGetCards();
     }, [])
 
-    useEffect(() => {
-        apiGetUserInfo();
-    }, [])
+
 
     function handleCardLike(card) {
         //check if like is clicked already
