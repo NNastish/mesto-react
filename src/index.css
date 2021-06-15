@@ -45,6 +45,13 @@
 @import url(blocks/card/__like/card__like.css);
 @import url(blocks/card/__like/_active/card__like_active.css);
 @import url(blocks/card/__delete/card__delete.css);
+
+
+/*FIXME: change paths add directories*/
+@import url(blocks/card/__delete/card__delete-button_hidden.css);
+@import url(blocks/card/__delete/card__delete-button_visible.css);
+
+
 @import url(blocks/card/__like-box/card__like-box.css);
 @import url(blocks/card/__like-numb/card__like-numb.css);
 

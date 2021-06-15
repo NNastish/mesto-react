@@ -1,5 +1,5 @@
-function Profile({userAvatar, onEditAvatar, nameFlag, userName,
-                     onEditProfile, descriptionFlag, userDescription, onAddPlace }) {
+function Profile({userAvatar, onEditAvatar, userName,
+                     onEditProfile, userDescription, onAddPlace }) {
     return (
         <section className="profile">
             <div className="profile__box">
@@ -16,10 +16,10 @@ function Profile({userAvatar, onEditAvatar, nameFlag, userName,
 
                 <div className="profile__info">
                     <div className="profile__header">
-                        <h1 className="profile__title">{nameFlag ? userName: "Жак-Ив Кусто"}</h1>
+                        <h1 className="profile__title">{userName}</h1>
                         <button type="button" className="profile__edit" id="edit" onClick={onEditProfile}></button>
                     </div>
-                    <p className="profile__text">{descriptionFlag ? userDescription: "Исследователь океана"}</p>
+                    <p className="profile__text">{userDescription}</p>
                 </div>
             </div>
 

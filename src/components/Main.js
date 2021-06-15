@@ -1,38 +1,18 @@
 import {api} from '../utils/Api';
-import {useState, useEffect} from "react";
+import { useState, useEffect, useContext } from "react";
 import Card from './Card';
 import Profile from './Profile';
+import {CurrentUserContext} from "../contexts/CurrentUserContext";
 
 function Main({ onAddPlace, onEditAvatar, onEditProfile, onCardClick }) {
-    const [userName, setUserName] = useState('');
-    const [userDescription, setUserDescription] = useState('');
-    const [userAvatar, setUserAvatar] = useState('');
-    const [nameFlag, setNameFlag] = useState(false);
-    const [descriptionFlag, setDescriptionFlag] = useState(false);
+    const user = useContext(CurrentUserContext);
     const [cards, setCards] = useState([]);
-
-    const apiGetUserInfo = () => {
-        api.getUserInfo()
-            .then(data => {
-                const {name, avatar, about} = data;
-                setUserName(name);
-                setNameFlag(true);
-                setUserAvatar(avatar);
-                setUserDescription(about);
-                setDescriptionFlag(true);
-            })
-            .catch((error) => {
-                setDescriptionFlag(false);
-                setNameFlag(false);
-            })
-            .finally(() => {
-            })
-    }
 
     const apiGetCards = () => {
         api.getInitialCards()
             .then((data) => {
                 setCards(data);
+                console.log(data);
             })
             .catch((error) => {
                 console.log('Error: ' + error.status);
@@ -44,7 +24,6 @@ function Main({ onAddPlace, onEditAvatar, onEditProfile, onCardClick }) {
 
     //TODO: in future want to add promiseAll and maybe modify stateVariables (start to use objects)
     useEffect(() => {
-        apiGetUserInfo();
         apiGetCards();
     }, [])
 
@@ -53,13 +32,11 @@ function Main({ onAddPlace, onEditAvatar, onEditProfile, onCardClick }) {
         <>
             {/*секция с профилем*/}
             <Profile
-                userAvatar={userAvatar}
+                userAvatar={user.avatar}
                 onEditAvatar={onEditAvatar}
-                nameFlag={nameFlag}
-                userName={userName}
+                userName={user.name}
                 onEditProfile={onEditProfile}
-                descriptionFlag={descriptionFlag}
-                userDescription={userDescription}
+                userDescription={user.about}
                 onAddPlace={onAddPlace}
             />
 
