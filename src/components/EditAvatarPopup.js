@@ -14,13 +14,13 @@ function EditAvatarPopup({ isOpen, onClose, onClickClose, onUpdateAvatar, submit
         });
     }
 
-    function handleChange(event) {
-        inputRef.current = event.target.value;
-    }
+    // function handleChange(event) {
+    //     inputRef.current = event.target.value;
+    // }
 
-    useEffect(() => {
-        inputRef.current = currentUser.avatar;
-    }, [currentUser]);
+    // useEffect(() => {
+    //     inputRef.current = currentUser.avatar;
+    // }, [currentUser]);
 
     return (
         <PopupWithForm
@@ -34,7 +34,7 @@ function EditAvatarPopup({ isOpen, onClose, onClickClose, onUpdateAvatar, submit
         >
 
             <input className="form__input form__input_link" id="link"
-                   ref={inputRef} onChange={handleChange}
+                   ref={inputRef}
                    type="url" name="avatar" defaultValue=""
                    placeholder="Ссылка на фототографию" required/>
             <span className="form__input-error" id="link-error"></span>
